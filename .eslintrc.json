@@ -1,0 +1,115 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "@typescript-eslint/naming-convention": "warn",
+        "@typescript-eslint/semi": "warn",
+        "arrow-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "array-bracket-spacing": "error",
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "curly": "warn",
+        "eol-last": [
+            "error",
+            "always"
+        ],
+        "eqeqeq": "warn",
+        "indent": [
+            "error",
+            4
+        ],
+        "lines-between-class-members": [
+            "error",
+            "always",
+            {
+                "exceptAfterSingleLine": true
+            }
+        ],
+        "max-len": [
+            "error",
+            {
+                "code": 120
+            }
+        ],
+        "no-multi-spaces": [
+            "error",
+            {
+                "exceptions": {
+                    "Property": false
+                }
+            }
+        ],
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1,
+                "maxEOF": 0
+            }
+        ],
+        "no-throw-literal": "warn",
+        "padded-blocks": [
+            "error",
+            "never",
+            {
+                "allowSingleLineBlocks": true
+            }
+        ],
+        "padding-line-between-statements": [
+            "error",
+            {
+                "blankLine": "always",
+                "prev": "export",
+                "next": [
+                    "*"
+                ]
+            }
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "semi-spacing": "error",
+        "space-before-blocks": "error",
+        "space-in-parens": [
+            "error",
+            "never"
+        ],
+        "space-infix-ops": [
+            "error",
+            {
+                "int32Hint": false
+            }
+        ]
+    },
+    "ignorePatterns": [
+        "out",
+        "dist",
+        "**/*.d.ts"
+    ]
+}

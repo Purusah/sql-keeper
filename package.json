@@ -1,0 +1,73 @@
+{
+  "name": "sql-keeper",
+  "displayName": "SQL Keeper",
+  "description": "SQL Database Client for VSCode",
+  "publisher": "purusah",
+  "version": "0.0.1",
+  "license": "MPL-2.0",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "SQL",
+    "Database"
+  ],
+  "bugs": {
+    "url": "https://github.com/Purusah/sql-keeper/issues"
+  },
+  "homepage": "https://github.com/Purusah/sql-keeper",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Purusah/sql-keeper.git"
+  },
+  "preview": true,
+  "private": true,
+  "activationEvents": [
+    "onCommand:sql-keeper.helloWorld",
+    "onNotebook:sql-keeper-notebook"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sql-keeper.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "notebooks": [
+      {
+        "type": "sql-keeper-notebook",
+        "displayName": "SQL Notebook",
+        "selector": [
+          {
+            "filenamePattern": "*.sqlnotebook"
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3",
+    "@vscode/test-electron": "^2.2.0"
+  }
+}
