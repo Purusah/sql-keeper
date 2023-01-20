@@ -36,6 +36,10 @@
             "always"
         ],
         "eqeqeq": "warn",
+        "function-call-argument-newline": [
+            "error",
+            "consistent"
+        ],
         "indent": [
             "error",
             4

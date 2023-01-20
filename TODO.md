@@ -5,6 +5,7 @@
 1. Add connection
 1. Connection status
 1. Preview data
+1. Publishing script
 1. Update package.json
 1. GitHub Actions
 1. esbuild
