@@ -6,7 +6,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "unused-imports"
     ],
     "rules": {
         "@typescript-eslint/naming-convention": "warn",
@@ -73,6 +74,10 @@
             }
         ],
         "no-throw-literal": "warn",
+        "object-curly-spacing": [
+            "error",
+            "never"
+        ],
         "padded-blocks": [
             "error",
             "never",
@@ -109,7 +114,8 @@
             {
                 "int32Hint": false
             }
-        ]
+        ],
+        "unused-imports/no-unused-imports": "error"
     },
     "ignorePatterns": [
         "out",
