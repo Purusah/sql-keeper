@@ -11,7 +11,7 @@
     ],
     "rules": {
         "@typescript-eslint/naming-convention": "warn",
-        "@typescript-eslint/semi": "warn",
+        "@typescript-eslint/semi": "error",
         "arrow-spacing": [
             "error",
             {
@@ -73,6 +73,7 @@
                 "maxEOF": 0
             }
         ],
+        "no-tabs": "error",
         "no-throw-literal": "warn",
         "object-curly-spacing": [
             "error",
@@ -99,10 +100,7 @@
             "error",
             "double"
         ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "semi": "off",
         "semi-spacing": "error",
         "space-before-blocks": "error",
         "space-in-parens": [

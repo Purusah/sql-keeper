@@ -1,4 +1,4 @@
-import { TextDecoder, TextEncoder } from "util";
+import {TextDecoder, TextEncoder} from "util";
 import * as vscode from "vscode";
 
 export class SqlNotebookJsonSerializer implements vscode.NotebookSerializer {
@@ -41,7 +41,7 @@ export class SqlNotebookJsonSerializer implements vscode.NotebookSerializer {
 }
 
 interface RawNotebookCell {
-	language: string;
-	value: string;
-	kind: vscode.NotebookCellKind;
+    language: string;
+    value: string;
+  kind: vscode.NotebookCellKind;
 }

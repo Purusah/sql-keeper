@@ -1,32 +1,39 @@
 import * as vscode from "vscode";
-import * as path from "path";
+import {SqlConnectionStorage} from "./SqlConnectionsStorage";
 
-export class SqlConnectionsTreeView implements vscode.TreeDataProvider<Dependency> {
-    constructor() {}
+export class SqlConnectionsTreeView implements vscode.TreeDataProvider<ConnectionTreeItem> {
+    private readonly secretsStorageRootKey = "sql-keeper-secret-storage";
 
-    getTreeItem(element: Dependency): vscode.TreeItem {
-        return element;
+    constructor(private storage: SqlConnectionStorage) {}
+
+    async getChildren(element?: ConnectionTreeItem): Promise<ConnectionTreeItem[]> {
+        const connections = await this.storage.load();
+        if (connections.length === 0) {
+            vscode.window.showInformationMessage("No dependency in empty workspace");
+            return [];
+        }
+
+        // if empty element then root elements requested
+        if (element !== undefined) {
+            // connection shouldn't contain children
+            return [];
+        }
+
+        const connectionsTreeItems: ConnectionTreeItem[] = [];
+        for (let c of connections) {
+            const {data} = c;
+            connectionsTreeItems.push(new ConnectionTreeItem(data.name, vscode.TreeItemCollapsibleState.None));
+        }
+        return connectionsTreeItems;
     }
 
-    getChildren(_element?: Dependency): Thenable<Dependency[]> {
-        vscode.window.showInformationMessage("No dependency in empty workspace");
-        return Promise.resolve([]);
+    getTreeItem(element: ConnectionTreeItem): vscode.TreeItem {
+        return element;
     }
 }
 
-class Dependency extends vscode.TreeItem {
-    constructor(
-    public readonly label: string,
-    private version: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState
-    ) {
+class ConnectionTreeItem extends vscode.TreeItem {
+    constructor(public readonly label: string, public readonly collapsibleState: vscode.TreeItemCollapsibleState) {
         super(label, collapsibleState);
-        this.tooltip = `${this.label}-${this.version}`;
-        this.description = this.version;
     }
-
-    iconPath = {
-        light: path.join(__filename, "..", "..", "resources", "light", "dependency.svg"),
-        dark: path.join(__filename, "..", "..", "resources", "dark", "dependency.svg"),
-    };
 }
