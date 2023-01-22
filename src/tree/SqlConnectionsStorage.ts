@@ -8,7 +8,9 @@ export class SqlConnectionStorage {
         this.serializer = new SqlConnectionsJsonSerializer();
     }
 
-    add(_connection: SqlConnection): void {}
+    add(): Promise<void> {
+        return Promise.resolve();
+    }
 
     async load(): Promise<SqlConnectionsStorageSchema["connections"]> {
         const serializedConnections = await this.secrets.get(this.secretsStorageRootKey);

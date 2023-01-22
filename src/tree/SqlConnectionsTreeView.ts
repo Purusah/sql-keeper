@@ -2,9 +2,15 @@ import * as vscode from "vscode";
 import {SqlConnectionStorage} from "./SqlConnectionsStorage";
 
 export class SqlConnectionsTreeView implements vscode.TreeDataProvider<ConnectionTreeItem> {
-    private readonly secretsStorageRootKey = "sql-keeper-secret-storage";
+    private _onDidChangeTreeData = new vscode.EventEmitter<OnUpdateSqlConnectionTreeView>();
+    readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
     constructor(private storage: SqlConnectionStorage) {}
+
+    async addConnection(): Promise<void> {
+        await this.storage.add();
+        this.refresh();
+    }
 
     async getChildren(element?: ConnectionTreeItem): Promise<ConnectionTreeItem[]> {
         const connections = await this.storage.load();
@@ -30,6 +36,10 @@ export class SqlConnectionsTreeView implements vscode.TreeDataProvider<Connectio
     getTreeItem(element: ConnectionTreeItem): vscode.TreeItem {
         return element;
     }
+
+    refresh(): void {
+        this._onDidChangeTreeData.fire();
+    }
 }
 
 class ConnectionTreeItem extends vscode.TreeItem {
@@ -37,3 +47,5 @@ class ConnectionTreeItem extends vscode.TreeItem {
         super(label, collapsibleState);
     }
 }
+
+type OnUpdateSqlConnectionTreeView = void | ConnectionTreeItem | ConnectionTreeItem[] | null | undefined;

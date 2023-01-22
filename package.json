@@ -39,6 +39,10 @@
           "light": "media/connection-add-light-icon.svg",
           "dark": "media/connection-add-dark-icon.svg"
         }
+      },
+      {
+        "command": "sql-keeper.command.connections-refresh",
+        "title": "Refresh"
       }
     ],
     "menus": {

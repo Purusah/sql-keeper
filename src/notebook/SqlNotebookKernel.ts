@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-export class SqlNotebookKernel {
+export class SqlNotebookKernel implements vscode.Disposable {
     readonly id = "sql-keeper-notebook-kernel";
     public readonly label = "SQL Keeper Notebook Kernel";
     readonly supportedLanguages = ["sql"];
