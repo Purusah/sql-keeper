@@ -31,6 +31,25 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "sql-keeper.command.connection-add",
+        "title": "Add",
+        "icon": {
+          "light": "media/connection-add-light-icon.svg",
+          "dark": "media/connection-add-dark-icon.svg"
+        }
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "sql-keeper.command.connection-add",
+          "group": "navigation",
+          "when": "view == sql-keeper.view.connection"
+        }
+      ]
+    },
     "notebooks": [
       {
         "type": "sql-keeper-notebook",
@@ -45,12 +64,12 @@
     "views": {
       "sql-keeper-viewcontainer": [
         {
-          "id": "sql-keeper-view-schema",
+          "id": "sql-keeper.view.schema",
           "name": "Schema",
           "visibility": "collapsed"
         },
         {
-          "id": "sql-keeper-view-connection",
+          "id": "sql-keeper.view.connection",
           "name": "name",
           "visibility": "visible"
         }

@@ -8,6 +8,9 @@ import {SqlConnectionStorage} from "./tree/SqlConnectionsStorage";
 export function activate(context: vscode.ExtensionContext) {
     const sqlConnectionsStorage = new SqlConnectionStorage(context.secrets);
 
+    // Commands
+    vscode.commands.registerCommand("sql-keeper.command.connection-add", () => {});
+
     // Notebook
     context.subscriptions.push(
         vscode.workspace.registerNotebookSerializer("sql-keeper-notebook", new SqlNotebookJsonSerializer()),
@@ -15,12 +18,12 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Tree View
-    vscode.window.createTreeView("sql-keeper-view-connection", {
+    vscode.window.createTreeView("sql-keeper.view.connection", {
         canSelectMany: false,
         showCollapseAll: true,
         treeDataProvider: new SqlConnectionsTreeView(sqlConnectionsStorage),
     });
-    vscode.window.createTreeView("sql-keeper-view-schema", {
+    vscode.window.createTreeView("sql-keeper.view.schema", {
         canSelectMany: false,
         showCollapseAll: true,
         treeDataProvider: new SqlSchemaTreeView(),
