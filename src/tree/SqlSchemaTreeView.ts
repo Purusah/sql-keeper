@@ -9,7 +9,6 @@ export class SqlSchemaTreeView implements vscode.TreeDataProvider<Dependency> {
     }
 
     getChildren(_element?: Dependency): Thenable<Dependency[]> {
-        vscode.window.showInformationMessage("No dependency in empty workspace");
         return Promise.resolve([]);
     }
 }

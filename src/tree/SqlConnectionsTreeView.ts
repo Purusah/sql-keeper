@@ -7,11 +7,6 @@ export class SqlConnectionsTreeView implements vscode.TreeDataProvider<Connectio
 
     constructor(private storage: SqlConnectionStorage) {}
 
-    async addConnection(): Promise<void> {
-        await this.storage.add();
-        this.refresh();
-    }
-
     async getChildren(element?: ConnectionTreeItem): Promise<ConnectionTreeItem[]> {
         const connections = await this.storage.load();
         if (connections.length === 0) {

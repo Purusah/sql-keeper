@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
+import {SqlConnection} from "../types";
 
 export class SqlConnectionStorage {
+    private readonly defaultVersion = 1;
     private readonly secretsStorageRootKey = "sql-keeper-secret-storage";
     private serializer: SqlConnectionsJsonSerializer;
 
@@ -8,8 +10,11 @@ export class SqlConnectionStorage {
         this.serializer = new SqlConnectionsJsonSerializer();
     }
 
-    add(): Promise<void> {
-        return Promise.resolve();
+    async add(connection: SqlConnection): Promise<void> {
+        const connections = await this.load();
+        connections.push(connection);
+        const serializedConnection = this.serializer.serialize({connections, version: this.defaultVersion});
+        await this.secrets.store(this.secretsStorageRootKey, serializedConnection);
     }
 
     async load(): Promise<SqlConnectionsStorageSchema["connections"]> {
@@ -36,14 +41,4 @@ class SqlConnectionsJsonSerializer {
 interface SqlConnectionsStorageSchema {
     version: number,
     connections: SqlConnection[];
-}
-
-type SqlConnection = SqlConnectionPresto;
-
-interface SqlConnectionPresto {
-    type: "presto",
-    data: {
-        name: string;
-        connection: string;
-    }
 }
