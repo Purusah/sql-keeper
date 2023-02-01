@@ -1,11 +1,18 @@
 import * as vscode from "vscode";
+import {PrestoConnection} from "../connection/PrestoConnection";
 import {SqlConnectionStorage} from "../tree/SqlConnectionsStorage";
 import {SqlConnectionsTreeView} from "../tree/SqlConnectionsTreeView";
-import {DatabaseType, DATABASE_TYPE_PRESTO, isDatabaseType, SqlConnection, SqlConnectionPresto} from "../types";
+import {
+    DatabaseType,
+    DATABASE_TYPE_PRESTO,
+    isDatabaseType,
+    SerializedConnection,
+    PrestoSerializedConnection,
+} from "../types";
 
 export class SqlConnectionQuickPickInput {
-    private readonly databaseToConnectionBuilder: {[Database in DatabaseType]: () => ConnectionBuilder } = {
-        [DATABASE_TYPE_PRESTO]: PrestoConnectionBuilder.init,
+    private readonly databaseToConnectionBuilder: {[Database in DatabaseType]: () => ConnectionBuilder} = {
+        [DATABASE_TYPE_PRESTO]: PrestoConnectionQuickPickInputBuilder.init,
     };
 
     constructor(private readonly tree: SqlConnectionsTreeView, private readonly storage: SqlConnectionStorage) {}
@@ -16,7 +23,7 @@ export class SqlConnectionQuickPickInput {
             canPickMany: false,
         });
         if (database === undefined || !isDatabaseType(database)) {
-            vscode.window.showInformationMessage("No options allowed");
+            vscode.window.showInformationMessage("Not supported database");
             return;
         }
 
@@ -26,18 +33,19 @@ export class SqlConnectionQuickPickInput {
             vscode.window.showInformationMessage("Can't add a new connection");
             return;
         }
-
+        // TODO try/catch and notification for the user
+        await PrestoConnection.init(connection);
         await this.storage.add(connection);
         await this.tree.refresh();
     }
 }
 
 interface ConnectionBuilder {
-    build(): Promise<SqlConnection | null>;
+    build(): Promise<SerializedConnection | null>;
 }
 
-class PrestoConnectionBuilder implements ConnectionBuilder {
-    async build(): Promise<SqlConnectionPresto | null> {
+class PrestoConnectionQuickPickInputBuilder implements ConnectionBuilder {
+    async build(): Promise<PrestoSerializedConnection | null> {
         const name = await vscode.window.showInputBox({
             placeHolder: "New connection name (\"Presto\" by default)",
         }) ?? DATABASE_TYPE_PRESTO;
@@ -56,16 +64,20 @@ class PrestoConnectionBuilder implements ConnectionBuilder {
             return null;
         }
 
+        // TODO
         return {
             type: DATABASE_TYPE_PRESTO,
             data: {
                 name,
-                connection,
+                url: connection,
+                user: "",
+                password: "",
+                ssl: false,
             },
         };
     }
 
-    static init(): PrestoConnectionBuilder {
-        return new PrestoConnectionBuilder();
+    static init(): PrestoConnectionQuickPickInputBuilder {
+        return new PrestoConnectionQuickPickInputBuilder();
     }
 }

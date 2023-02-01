@@ -11,12 +11,22 @@ export const isDatabaseType = (input: string): input is DatabaseType => {
     }
 };
 
-export type SqlConnection = SqlConnectionPresto;
+export type SerializedConnection = PrestoSerializedConnection;
 
-export interface SqlConnectionPresto {
-    type: typeof DATABASE_TYPE_PRESTO,
+export interface PrestoSerializedConnection {
+    type: typeof DATABASE_TYPE_PRESTO;
     data: {
+        url: string;
         name: string;
-        connection: string;
-    }
+        password: string;
+        user: string;
+        ssl: boolean;
+    };
+}
+
+export interface Connection<T extends SerializedConnection> {
+    execute(query: string): Promise<string>;
+    serialize(): T;
+    showDatabases(): Promise<string[]>;
+    showTables(database: string): Promise<string[]>;
 }

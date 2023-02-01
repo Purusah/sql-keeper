@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import {SqlConnection} from "../types";
+import {SerializedConnection} from "../types";
 
 export class SqlConnectionStorage {
     private readonly defaultVersion = 1;
@@ -10,7 +10,7 @@ export class SqlConnectionStorage {
         this.serializer = new SqlConnectionsJsonSerializer();
     }
 
-    async add(connection: SqlConnection): Promise<void> {
+    async add(connection: SerializedConnection): Promise<void> {
         const connections = await this.load();
         connections.push(connection);
         const serializedConnection = this.serializer.serialize({connections, version: this.defaultVersion});
@@ -25,7 +25,7 @@ export class SqlConnectionStorage {
         return this.serializer.deserialize(serializedConnections).connections;
     }
 
-    delete(_connection: SqlConnection): void {}
+    delete(_connection: SerializedConnection): void {}
 }
 
 class SqlConnectionsJsonSerializer {
@@ -39,6 +39,6 @@ class SqlConnectionsJsonSerializer {
 }
 
 interface SqlConnectionsStorageSchema {
-    version: number,
-    connections: SqlConnection[];
+    version: number;
+    connections: SerializedConnection[];
 }

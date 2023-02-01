@@ -10,6 +10,7 @@
         "unused-imports"
     ],
     "rules": {
+        "@typescript-eslint/member-delimiter-style": "error",
         "@typescript-eslint/naming-convention": "warn",
         "@typescript-eslint/semi": "error",
         "arrow-spacing": [
